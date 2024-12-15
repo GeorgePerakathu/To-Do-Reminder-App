@@ -7,7 +7,7 @@ from .database import todo_collection, todo_serializer, workspace_collection, wo
 from bson import ObjectId
 from typing import List
 import os
-from mangum import Mangum # Import the Mangum handler
+#from mangum import Mangum # Import the Mangum handler
 
 app = FastAPI()
 
@@ -104,4 +104,4 @@ async def delete_all_todos():
     await todo_collection.delete_many({})
     return {"message": "All todos deleted successfully"}
 
-handler = Mangum(app) #vercel
+#Handler = Mangum(app) #vercel
