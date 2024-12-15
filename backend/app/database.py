@@ -16,7 +16,11 @@ try:
         raise ValueError("MONGODB_URL environment variable not set")
     
     print(f"Connecting to MongoDB...")
-    client = AsyncIOMotorClient(MONGODB_URL)
+    client = AsyncIOMotorClient(
+        MONGODB_URL,
+        tls=True,
+        tlsAllowInvalidCertificates=True
+    )
     db = client[os.getenv("DATABASE_NAME", "todo_db")]
     todo_collection = db.todos
     workspace_collection = db.workspaces
