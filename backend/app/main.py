@@ -6,12 +6,15 @@ from .models import TodoTask, UpdateTodoTask, Workspace
 from .database import todo_collection, todo_serializer, workspace_collection, workspace_serializer, hash_password, verify_password
 from bson import ObjectId
 from typing import List
-
+import os
 app = FastAPI()
+
+
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[os.getenv("CORS_ORIGINS", "http://localhost:5173")],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
