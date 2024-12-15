@@ -104,4 +104,4 @@ async def delete_all_todos():
     await todo_collection.delete_many({})
     return {"message": "All todos deleted successfully"}
 
-handler = Mangum(app) #remove if not vercel
+handler = Mangum(app) #vercel
