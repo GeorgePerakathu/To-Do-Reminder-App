@@ -27,6 +27,7 @@ function App() {
 
   useEffect(() => {
     if (workspace) {
+      console.log(`Workspace detected: ${workspace}`);
       loadTodos();
     }
   }, [workspace]);
@@ -40,7 +41,8 @@ function App() {
     try {
       setLoading(true);
       setError(null);
-      await workspaceApi.createWorkspace(workspace, password);
+      console.log(`Creating workspace: ${workspace}`);
+      await workspaceApi.createWorkspace(workspace, password); // Ensure using workspaceApi
       localStorage.setItem('workspace', workspace);
       setShowWorkspacePrompt(false);
       loadTodos();
@@ -65,7 +67,8 @@ function App() {
     try {
       setLoading(true);
       setError(null);
-      await workspaceApi.loginWorkspace(workspace, password);
+      console.log(`Logging into workspace: ${workspace}`);
+      await workspaceApi.loginWorkspace(workspace, password); // Ensure using workspaceApi
       localStorage.setItem('workspace', workspace);
       setShowWorkspacePrompt(false);
       loadTodos();
@@ -88,6 +91,7 @@ function App() {
     try {
       setLoading(true);
       setError(null);
+      console.log(`Loading todos for workspace: ${workspace}`);
       const data = await todoApi.getAllTodos(workspace);
       setTodos(data);
     } catch (error) {
@@ -119,6 +123,7 @@ function App() {
     try {
       setLoading(true);
       setError(null);
+      console.log('Creating new todo:', newTodo);
       await todoApi.createTodo({ ...newTodo, workspace });
       setNewTodo({ title: '', description: '', due_date: '', priority: 'medium' });
       await loadTodos();

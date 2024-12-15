@@ -1,23 +1,46 @@
+import logging  # Add this import
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from .models import TodoTask, UpdateTodoTask, Workspace
-from .database import todo_collection, todo_serializer, workspace_collection, workspace_serializer, hash_password, verify_password
+from .database import (
+    todo_collection, 
+    todo_serializer, 
+    workspace_collection, 
+    workspace_serializer, 
+    hash_password, 
+    verify_password
+)
 from bson import ObjectId
 from typing import List
 import os
-#from mangum import Mangum # Import the Mangum handler
+# from mangum import Mangum  # Import the Mangum handler
+
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
+logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[os.getenv("CORS_ORIGINS", "http://localhost:5173")],
+    allow_origins=["*"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Middleware to log incoming requests
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    logger.info(f"Incoming request: {request.method} {request.url}")
+    response = await call_next(request)
+    logger.info(f"Response status: {response.status_code} for {request.method} {request.url}")
+    return response
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
