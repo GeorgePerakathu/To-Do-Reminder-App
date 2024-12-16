@@ -170,6 +170,29 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    const keepAlive = () => {
+      fetch('https://backend-todo-taskmanager.onrender.com/todos/default_workspace')
+        .then(response => {
+          if (!response.ok) {
+            console.error('Keep-alive request failed');
+          }
+        })
+        .catch(error => {
+          console.error('Keep-alive request error:', error);
+        });
+    };
+
+    // Initial call
+    keepAlive();
+
+    // Set interval to send GET request every 8 minutes (480,000 milliseconds)
+    const intervalId = setInterval(keepAlive, 480000);
+
+    // Cleanup on unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
     <div className="App">
       {showWorkspacePrompt ? (
