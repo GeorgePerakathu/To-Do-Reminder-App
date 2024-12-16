@@ -290,11 +290,12 @@ Comprehensive test cases are implemented to ensure the reliability and correctne
   - **`test_input_validation_missing_fields`**: Tests input validation by omitting required fields.
   - **`test_input_validation_invalid_data_types`**: Ensures that invalid data types in the request payload are handled correctly.
 
-### Additional Notes
 
-- **Unique Workspace Names:** Tests utilize unique workspace names by appending the current timestamp to avoid conflicts and ensure independence of test cases.
-- **Assertions:** Each test case includes assertions to verify the expected status codes and response contents.
-- **Cleanup:** Tests assume that the API endpoints handle cleanup, such as deleting todos upon workspace deletion. If not, consider adding teardown steps to remove created data after tests.
+## Keep-Alive Mechanism
+
+To prevent the backend server from going to sleep, a keep-alive mechanism has been implemented in the frontend. This involves sending a simple GET request to the backend every 8 minutes.
+
+Since Render spins down the server due to inactivity on free-tier hosting, the frontend sends GET requests every 8 minutes to keep the backend active.
 
 
 
