@@ -289,6 +289,14 @@ Comprehensive test cases are implemented to ensure the reliability and correctne
   - **`test_delete_todo_nonexistent`**: Checks that deleting a non-existent todo fails.
   - **`test_input_validation_missing_fields`**: Tests input validation by omitting required fields.
   - **`test_input_validation_invalid_data_types`**: Ensures that invalid data types in the request payload are handled correctly.
+ 
+## Samples of the App:
+![image](https://github.com/user-attachments/assets/b92fd7fd-5cb7-465e-ba16-849248e74aa7)
+![image](https://github.com/user-attachments/assets/32dc0f51-fdba-4d1a-8a87-19903a0606f5)
+![image](https://github.com/user-attachments/assets/21266723-b9cc-4684-aa72-fe9a5659f6c0)
+![image](https://github.com/user-attachments/assets/df805e2f-b48d-4803-9578-2e2e943ced7d)
+
+
 
 
 ## Keep-Alive Mechanism
