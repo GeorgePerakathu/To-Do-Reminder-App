@@ -1,7 +1,7 @@
 
 # To-Do Reminder App
 
-This is a full-stack To-Do Reminder App built with a React frontend and a FastAPI backend. The app allows users to create workspaces, add tasks with due dates and priorities, and manage their to-do lists collaboratively.
+This is a full-stack To-Do Reminder App built with a React frontend and a FastAPI backend. The data is stored in the MongoDB Atlas. The app allows users to create workspaces, add tasks with due dates and priorities, and manage their to-do lists collaboratively.
 
 ## Table of Contents
 
@@ -17,8 +17,7 @@ This is a full-stack To-Do Reminder App built with a React frontend and a FastAP
   - [Todo APIs](#todo-apis)
 - [Testing](#testing)
   - [Running Tests](#running-tests)
-- [Contributing](#contributing)
-- [License](#license)
+
 
 ## Features
 
@@ -30,9 +29,9 @@ This is a full-stack To-Do Reminder App built with a React frontend and a FastAP
 
 ## Live Demo
 
-The application is deployed and running at [www.frontendfull.com](http://www.frontendfull.com). Please wait approximately **2 minutes** for the backend server to start if it's in sleep mode.
+The application is deployed and running at [https://to-do-task-manager-mu.vercel.app](https://to-do-task-manager-mu.vercel.app). Please wait approximately **2 minutes** for the backend server to start if it's in sleep mode.
 
-If you want to test only the backend APIs, you can visit [www.backend.com](http://www.backend.com).
+If you want to test only the backend APIs, you can visit [https://backend-todo-taskmanager.onrender.com](https://backend-todo-taskmanager.onrender.com).
 
 ## Getting Started
 
@@ -41,8 +40,6 @@ If you want to test only the backend APIs, you can visit [www.backend.com](http:
 - **Node.js** (v14 or newer)
 - **Python** (v3.8 or newer)
 - **MongoDB** database (you can use [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) for a cloud database)
-- **Git** (for cloning the repository)
-- **Postman** (for testing APIs)
 
 ### Setup Instructions
 
@@ -245,10 +242,4 @@ Test cases are located in the `tests` directory within the backend:
 - Test accessing todos for a non-existent workspace.
 - Test input validation (e.g., missing required fields, invalid data types).
 
-## Contributing
 
-Contributions are welcome! Please submit a pull request or open an issue for any feature requests or bugs.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
