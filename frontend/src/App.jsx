@@ -4,6 +4,7 @@ import './App.css';
 
 function App() {
   const [workspace, setWorkspace] = useState(localStorage.getItem('workspace') || '');
+  const [workspaceInput, setWorkspaceInput] = useState(''); 
   const [password, setPassword] = useState('');
   const [showWorkspacePrompt, setShowWorkspacePrompt] = useState(!localStorage.getItem('workspace'));
 
@@ -41,9 +42,10 @@ function App() {
     try {
       setLoading(true);
       setError(null);
-      console.log(`Creating workspace: ${workspace}`);
-      await workspaceApi.createWorkspace(workspace, password); // Ensure using workspaceApi
-      localStorage.setItem('workspace', workspace);
+      console.log(`Creating workspace: ${workspaceInput}`); 
+      await workspaceApi.createWorkspace(workspaceInput, password);
+      localStorage.setItem('workspace', workspaceInput);
+      setWorkspace(workspaceInput);  
       setShowWorkspacePrompt(false);
       loadTodos();
     } catch (error) {
@@ -67,9 +69,10 @@ function App() {
     try {
       setLoading(true);
       setError(null);
-      console.log(`Logging into workspace: ${workspace}`);
-      await workspaceApi.loginWorkspace(workspace, password); // Ensure using workspaceApi
-      localStorage.setItem('workspace', workspace);
+      console.log(`Logging into workspace: ${workspaceInput}`);  // Use workspaceInput
+      await workspaceApi.loginWorkspace(workspaceInput, password);
+      localStorage.setItem('workspace', workspaceInput);
+      setWorkspace(workspaceInput);  // Set workspace after successful login
       setShowWorkspacePrompt(false);
       loadTodos();
     } catch (error) {
@@ -82,6 +85,8 @@ function App() {
 
   const handleChangeWorkspace = () => {
     localStorage.removeItem('workspace');
+    setWorkspace('');           // Reset workspace
+    setWorkspaceInput('');      // Reset workspaceInput
     setShowWorkspacePrompt(true);
     setTodos([]);
   };
@@ -180,8 +185,8 @@ function App() {
             <input
               type="text"
               className="workspace-input"
-              value={workspace}
-              onChange={(e) => setWorkspace(e.target.value)}
+              value={workspaceInput}                       
+              onChange={(e) => setWorkspaceInput(e.target.value)}  
               placeholder="Workspace Name"
               required
               autoFocus

@@ -1,7 +1,6 @@
-
 # To-Do Reminder App
 
-This is a full-stack To-Do Reminder App built with a React frontend and a FastAPI backend. The data is stored in the MongoDB Atlas. The app allows users to create workspaces, add tasks with due dates and priorities, and manage their to-do lists collaboratively.
+This is a full-stack To-Do Reminder App built with a React frontend and a FastAPI backend. The data is stored in MongoDB Atlas. The app allows users to create workspaces, add tasks with due dates and priorities, and manage their to-do lists collaboratively.
 
 ## Table of Contents
 
@@ -16,8 +15,6 @@ This is a full-stack To-Do Reminder App built with a React frontend and a FastAP
   - [Authentication APIs](#authentication-apis)
   - [Todo APIs](#todo-apis)
 - [Testing](#testing)
-  - [Running Tests](#running-tests)
-
 
 ## Features
 
@@ -47,21 +44,21 @@ If you want to test only the backend APIs, you can visit [https://backend-todo-t
 
 1. **Clone the Repository**
 
-   ```bash
+   ```cmd
    git clone https://github.com/yourusername/To-Do-Reminder-App.git
-   cd To-Do-Reminder-App/backend
+   cd To-Do-Reminder-App\backend
    ```
 
 2. **Create a Virtual Environment**
 
-   ```bash
+   ```cmd
    python -m venv venv
-   source venv/bin/activate   # On Windows use `venv\Scripts\activate`
+   venv\Scripts\activate
    ```
 
 3. **Install Dependencies**
 
-   ```bash
+   ```cmd
    pip install -r requirements.txt
    ```
 
@@ -78,9 +75,51 @@ If you want to test only the backend APIs, you can visit [https://backend-todo-t
 
    Replace `your_mongodb_connection_string` with your actual MongoDB connection string. Replace `your_secret_key` with a secure, random string.
 
+##### Using MongoDB Atlas
+
+This app currently uses MongoDB Atlas to store data. If you want to store data on the local machine, please follow the below steps.
+
+##### **Using Local MongoDB**
+
+If you prefer to run MongoDB on your local machine instead of using MongoDB Atlas, follow these steps:
+
+1. **Download and Install MongoDB:**
+
+   - Visit the [MongoDB Download Center](https://www.mongodb.com/try/download/community) and download the **MongoDB Community Server** for Windows.
+   - Run the installer and follow the setup instructions. During installation, choose the option to install MongoDB as a **Windows Service** for easier management.
+
+2. **Start MongoDB:**
+
+   - If you installed MongoDB as a service, it should start automatically. If not, you can start it manually via Command Prompt:
+   
+     ```cmd
+     net start MongoDB
+     ```
+   
+   - To verify that MongoDB is running, open Command Prompt and enter:
+   
+     ```cmd
+     mongo
+     ```
+   
+     This should connect you to the MongoDB shell.
+
+3. **Configure Environment Variables:**
+
+   - Update your `.env` file in the `backend` directory with the following content:
+   
+     ```properties
+     MONGODB_URL=mongodb://localhost:27017
+     DATABASE_NAME=todo_db
+     SECRET_KEY=your_secret_key
+     CORS_ORIGINS=*
+     ```
+   
+     Ensure that `MONGODB_URL` points to your local MongoDB instance.
+
 5. **Run the Backend Server**
 
-   ```bash
+   ```cmd
    uvicorn app.main:app --reload
    ```
 
@@ -90,19 +129,19 @@ If you want to test only the backend APIs, you can visit [https://backend-todo-t
 
 1. **Navigate to the Frontend Directory**
 
-   ```bash
-   cd ../frontend
+   ```cmd
+   cd ..\frontend
    ```
 
 2. **Install Dependencies**
 
-   ```bash
+   ```cmd
    npm install
    ```
 
 3. **Run the Frontend Server**
 
-   ```bash
+   ```cmd
    npm run dev
    ```
 
@@ -199,47 +238,65 @@ If you want to test only the backend APIs, you can visit [https://backend-todo-t
 
 ## Testing
 
-It is mandatory to write test cases for each of the APIs developed.
+Comprehensive test cases are implemented to ensure the reliability and correctness of the deployed backend APIs.
 
-### Running Tests
+### Prerequisites for Testing
+
+- Ensure the backend server is running and accessible at the specified `BASE_URL`.
+- Install the required Python packages if not already installed:
+
+  ```cmd
+  pip install -r requirements.txt
+  ```
+
+### Running the Tests
 
 1. **Navigate to the Backend Directory**
 
-   ```bash
+   ```cmd
    cd backend
    ```
 
-2. **Install Test Dependencies**
+2. **Activate the Virtual Environment**
 
-   Make sure you have `pytest` installed:
-
-   ```bash
-   pip install pytest pytest-asyncio
+   ```cmd
+   call .venv\Scripts\activate
    ```
 
-3. **Run Tests**
+3. **Run the Test Suite Using Pytest**
 
-   ```bash
-   pytest
+   ```cmd
+   pytest tests/test_deployed_server.py
    ```
 
-### Test Cases
+   This command will execute all the test cases defined in `test_deployed_server.py`, covering various scenarios such as workspace creation, authentication, todo management, and input validation.
 
-Test cases are located in the `tests` directory within the backend:
+### Understanding the Test Cases
 
-- `/backend/tests/test_main.py`
+- **Workspace Tests:**
+  - **`test_create_workspace_success`**: Verifies successful creation of a new workspace.
+  - **`test_create_workspace_duplicate`**: Ensures that creating a workspace with an existing name fails.
+  - **`test_login_workspace`**: Tests successful login to an existing workspace.
+  - **`test_login_workspace_incorrect_password`**: Checks that login fails with incorrect credentials.
 
-**Examples of Test Cases:**
+- **Todo Tests:**
+  - **`test_create_todo_success`**: Validates successful creation of a new todo item.
+  - **`test_create_todo_nonexistent_workspace`**: Ensures that creating a todo in a non-existent workspace fails.
+  - **`test_get_todos_empty_workspace`**: Checks that retrieving todos from an empty workspace returns an empty list.
+  - **`test_update_todo_success`**: Verifies successful updating of an existing todo.
+  - **`test_update_todo_nonexistent`**: Ensures that updating a non-existent todo fails.
+  - **`test_delete_todo_success`**: Validates successful deletion of an existing todo.
+  - **`test_delete_todo_nonexistent`**: Checks that deleting a non-existent todo fails.
+  - **`test_input_validation_missing_fields`**: Tests input validation by omitting required fields.
+  - **`test_input_validation_invalid_data_types`**: Ensures that invalid data types in the request payload are handled correctly.
 
-- Test creating a workspace with valid data.
-- Test creating a workspace with an existing name.
-- Test logging into a workspace with correct credentials.
-- Test logging into a workspace with incorrect credentials.
-- Test creating a todo item with valid data.
-- Test retrieving todos for a workspace.
-- Test updating a todo item.
-- Test deleting a todo item.
-- Test accessing todos for a non-existent workspace.
-- Test input validation (e.g., missing required fields, invalid data types).
+### Additional Notes
+
+- **Unique Workspace Names:** Tests utilize unique workspace names by appending the current timestamp to avoid conflicts and ensure independence of test cases.
+- **Assertions:** Each test case includes assertions to verify the expected status codes and response contents.
+- **Cleanup:** Tests assume that the API endpoints handle cleanup, such as deleting todos upon workspace deletion. If not, consider adding teardown steps to remove created data after tests.
+
+
+
 
 
